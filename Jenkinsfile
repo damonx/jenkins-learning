@@ -1,6 +1,11 @@
 pipeline {
     agent any
-
+    parameters {
+        string(name: 'GREETING', defaultValue: 'Hello, World!', description: 'A greeting message to display')
+        string(name: 'NAME', defaultValue: 'DamonX', description: 'Your name')
+        choice(name: 'VERSION', choices: ['1.0', '2.0', '3.0'], description: 'Select the version to build')
+        booleanParam(name: 'RUN_TESTS', defaultValue: true, description: 'Whether to run tests after building')
+    }
     environment {
         NEW_VERSION = "1.0.${BUILD_NUMBER}"
         SERVER_CREDENTIALS = credentials('damonx-server')
@@ -20,7 +25,7 @@ pipeline {
 
         stage('test') {
             when {
-                expression { env.BRANCH_NAME != 'main' }
+                expression { env.BRANCH_NAME != 'main' && params.RUN_TESTS }
             }
             steps {
                 echo 'testing the application...'
@@ -33,6 +38,7 @@ pipeline {
             }
             steps {
                 echo 'deploying the application...'
+                echo "deploying version ${params.VERSION} to production"
 
                 withCredentials([usernamePassword(
                     credentialsId: 'damonx-server-credentials',
