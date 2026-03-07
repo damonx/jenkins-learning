@@ -13,12 +13,22 @@ pipeline {
         }
 
         stage('test') {
+            when {
+                expression {
+                    return env.BRANCH_NAME != 'main'
+                }
+            }
             steps {
                 echo 'testing the application...'
             }
         }
 
         stage('deploy') {
+            when {
+                expression {
+                    return env.BRANCH_NAME == 'main'
+                }
+            }
             steps {
                 echo 'deploying the application...'
             }
