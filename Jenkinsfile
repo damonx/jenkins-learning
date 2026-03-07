@@ -1,6 +1,9 @@
 pipeline {
     agent any
-
+    environment {
+        NEW_VERSION = '1.0.${BUILD_NUMBER}'
+        SERVER_CREDENTIALS = credentials('damonx-server')
+    }
     tools {
         maven 'local maven'
     }
@@ -9,6 +12,7 @@ pipeline {
         stage('build') {
             steps {
                 sh 'mvn -B -U clean install'
+                echo "building version ${env.NEW_VERSION}"
             }
         }
 
@@ -31,6 +35,10 @@ pipeline {
             }
             steps {
                 echo 'deploying the application...'
+                echo "Using credentials: ${SERVER_CREDENTIALS}"
+                withCredentials([usernamePassword(credentials: 'damonx-server-credentials', usernameVariable: USER, passwordVariable: PWD)]) {
+                    sh "echo Deploying with user ${USER} and password ${PWD}"
+                }
             }
         }
     }
