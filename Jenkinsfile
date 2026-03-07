@@ -20,6 +20,7 @@ pipeline {
             steps {
                 sh 'mvn -B -U clean install'
                 echo "building version ${env.NEW_VERSION}"
+                echo "${params.GREETING} My name is ${params.NAME}."
             }
         }
 
