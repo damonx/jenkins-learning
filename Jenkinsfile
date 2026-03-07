@@ -1,3 +1,4 @@
+def gv
 pipeline {
     agent any
     parameters {
@@ -16,8 +17,18 @@ pipeline {
     }
 
     stages {
+        stage('init') {
+            steps {
+                script {
+                    gv = load "script.groovy"
+                }
+            }
+        }
         stage('build') {
             steps {
+                script {
+                    gv.buildApp()
+                }
                 sh 'mvn -B -U clean install'
                 echo "building version ${env.NEW_VERSION}"
                 echo "${params.GREETING} My name is ${params.NAME}."
