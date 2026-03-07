@@ -1,9 +1,11 @@
 pipeline {
     agent any
+
     environment {
-        NEW_VERSION = '1.0.${BUILD_NUMBER}'
+        NEW_VERSION = "1.0.${BUILD_NUMBER}"
         SERVER_CREDENTIALS = credentials('damonx-server')
     }
+
     tools {
         maven 'local maven'
     }
@@ -18,9 +20,7 @@ pipeline {
 
         stage('test') {
             when {
-                expression {
-                    return env.BRANCH_NAME != 'main'
-                }
+                expression { env.BRANCH_NAME != 'main' }
             }
             steps {
                 echo 'testing the application...'
@@ -29,15 +29,17 @@ pipeline {
 
         stage('deploy') {
             when {
-                expression {
-                    return env.BRANCH_NAME == 'main'
-                }
+                expression { env.BRANCH_NAME == 'main' }
             }
             steps {
                 echo 'deploying the application...'
-                echo "Using credentials: ${SERVER_CREDENTIALS}"
-                withCredentials([usernamePassword(credentials: 'damonx-server-credentials', usernameVariable: USER, passwordVariable: PWD)]) {
-                    sh "echo Deploying with user ${USER} and password ${PWD}"
+
+                withCredentials([usernamePassword(
+                    credentialsId: 'damonx-server-credentials',
+                    usernameVariable: 'USER',
+                    passwordVariable: 'PWD'
+                )]) {
+                    sh "echo Deploying with user ${USER}"
                 }
             }
         }
