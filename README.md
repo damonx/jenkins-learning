@@ -1,2 +1,3 @@
 # jenkins-learning
-This is a simple Jenkins learning repo.
+
+A simple demo maven project with Jenkins pipeline for learning.
