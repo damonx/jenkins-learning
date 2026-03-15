@@ -10,6 +10,6 @@ public class HelloController {
 
     @GetMapping("/")
     public String hello() {
-        return "Hello DamonX - Today is " + LocalDate.now();
+        return "Hello Damon Xu - Today is " + LocalDate.now();
     }
 }
