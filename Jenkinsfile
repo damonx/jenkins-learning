@@ -9,7 +9,7 @@ pipeline {
     }
     environment {
         NEW_VERSION = "1.0.${BUILD_NUMBER}"
-        SERVER_CREDENTIALS = credentials('damonx-server')
+        SERVER_CREDENTIALS = credentials('damonx-server-credentials')
     }
 
     tools {
