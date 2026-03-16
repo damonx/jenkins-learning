@@ -16,6 +16,9 @@ pipeline {
         maven 'LOCAL-MAVEN'
     }
 
+    triggers {
+        pollSCM('* * * * *')
+    }   
     stages {
         stage('init') {
             steps {
