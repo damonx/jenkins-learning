@@ -56,6 +56,9 @@ pipeline {
                 expression { env.BRANCH_NAME == 'main' }
             }
             steps {
+                timeout(time: 5, unit: 'DAYS') {
+                    input message: 'Deploy to production?'
+                }
                 echo 'deploying the application...'
                 echo "deploying version ${params.VERSION} to production"
 
@@ -66,6 +69,15 @@ pipeline {
                 )]) {
                     sh "echo Deploying with user ${USER}"
                 }
+                // build job: 'deploy-to-staging'
+            }
+            post {
+                success {
+                    echo 'Deployment succeeded!'
+                }
+                failure {
+                    echo 'Deployment failed. Please check the logs.'
+                }   
             }
         }
     }
