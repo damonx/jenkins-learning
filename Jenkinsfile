@@ -55,16 +55,11 @@ pipeline {
             when {
                 expression { env.BRANCH_NAME == 'main' }
             }
-            steps{
+            steps {
                 timeout(time:5, unit:'DAYS'){
                     input message:'Deploy to PROD?' 
                 }
                 echo 'deploying the application...damonx'
-
-                //build job: 'deploy-to-production'
-            }
-            steps {
-                echo 'deploying the application...'
                 echo "deploying version ${params.VERSION} to production"
 
                 withCredentials([usernamePassword(
