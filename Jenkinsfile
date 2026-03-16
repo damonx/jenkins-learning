@@ -50,7 +50,7 @@ pipeline {
                 expression { env.BRANCH_NAME != 'main' && params.RUN_TESTS }
             }
             steps {
-                echo 'testing the application...'
+                echo 'Testing the application...'
             }
         }
 
