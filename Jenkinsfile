@@ -33,6 +33,13 @@ pipeline {
                 echo "building version ${env.NEW_VERSION}"
                 echo "${params.GREETING} My name is ${params.NAME}."
             }
+            post {
+                success {
+                    echo 'Build stage succeeded!'
+                    echo 'Archive the build artifacts...'
+                    archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+                }
+            }
         }
 
         stage('test') {
