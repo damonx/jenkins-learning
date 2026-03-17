@@ -32,9 +32,11 @@ pipeline {
                 script {
                     gv.buildApp()
                 }
-                sh 'mvn -B -U clean install'
                 echo "building version ${env.NEW_VERSION}"
                 echo "${params.GREETING} My name is ${params.NAME}."
+                sh 'mvn -B -U clean package'
+                echo 'Building docker image hello-damonx...'
+                sh 'docker build -t hello-damonx:${env.BUILD_NUMBER} ./build-support'
             }
             post {
                 success {
