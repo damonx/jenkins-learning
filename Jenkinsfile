@@ -36,7 +36,11 @@ pipeline {
                 echo "${params.GREETING} My name is ${params.NAME}."
                 sh 'mvn -B -U clean package'
                 echo 'Building docker image hello-damonx...'
-                sh 'docker build -t hello-damonx:${env.BUILD_NUMBER} ./build-support'
+        
+                sh """
+                docker build -t hello-damonx:${env.BUILD_NUMBER} \
+                -f build-support/Dockerfile .
+                """
             }
             post {
                 success {
