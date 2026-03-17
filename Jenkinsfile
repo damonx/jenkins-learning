@@ -37,10 +37,7 @@ pipeline {
                 sh 'mvn -B -U clean package'
                 echo 'Building docker image hello-damonx...'
         
-                sh """
-                docker build -t hello-damonx:${env.BUILD_NUMBER} \
-                -f build-support/Dockerfile .
-                """
+                docker.build("hello-damonx:${env.BUILD_NUMBER}", "./build-support")
             }
             post {
                 success {
